@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Firebase Reference -->
+  <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+  <!-- Moment.js Reference -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
+  <title>Train Scheduler</title>
+</head>
+
+<body>
+  <!-- Main Bootstrap Search -->
+  <div class="container">
+    <!-- <button id="google">Google SignIn </button> -->
+    <!-- Jumbotron for Title -->
+    <div class="jumbotron" style="background-color: #20315A ; color: white;">
+      <h1 class="text-center">
+        <strong>
+          <i class="fas fa-subway"></i> Trains, Trains Everywhere...</strong>
+      </h1>
+      <!-- <p class="text-center">Get Your Next Train Now!</p> -->
+      <p id='datetime' class='text-center'></p>
+    </div>
+
+    <!-- This row will handle all of the retrieved trains -->
+    <div class="row">
+      <div class="col-sm-12">
+        <br>
+
+        <!-- This card will initially be made up of a card and wells for each of the trains retrieved -->
+        <div class="card">
+
+          <div class="card-header" style="background-color: #20315A ; color: white;">
+            <strong>
+              <i class="fas fa-clipboard-list"></i> Current Train Schedule</strong>
+          </div>
+
+          <!-- This main card will hold each of the trains -->
+          <div class="card-body" id="train-section">
+            <table class="table" id='train-new'>
+              <thead>
+                <tr>
+                  <th scope="col">Train Name</th>
+                  <th scope="col">Destination</th>
+                  <th scope="col">Frequency (min)</th>
+                  <th scope="col">Next Arival</th>
+                  <th scope="col">Minutes Away</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- <tr>
+                  <th scope="row">Trenton Express</th>
+                  <td class='#'>Trenton</td>
+                  <td id='freq' class='#'>25</td>
+                  <td id='nextArrival'>5:35</td>
+                  <td id='minAway'>10</td>
+                  <td id='remove'><span><i class="far fa-trash-alt"></i></span></td>
+                </tr> -->
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row for Searching Trains -->
+    <div class="row">
+      <div class="col-sm-12">
+        <br>
+        <!-- First card is for handling the search parameters -->
+        <div class="card">
+          <div class="card-header" style="background-color: #20315A ; color: white;">
+            <strong>
+              <i class="fa fa-list-alt"></i> Add Train</strong>
+          </div>
+          <div class="card-body">
+
+            <!-- Here we create an HTML Form for handling the inputs-->
+            <form role="form">
+
+              <!-- Here we create the text box for capturing the search term-->
+              <div class="form-group">
+                <label  for="train-name">Train Name:</label>
+                <input type="text" class="form-control" id="train-name" placeholder="Miami Express">
+              </div>
+
+              <!-- Here we capture the number of records that the user wants to retrieve  -->
+              <div class="form-group">
+                <label for="destination">Destination:</label>
+                <input type="text" class="form-control" id="destination" placeholder="Boston" >
+              </div>
+
+              <!-- Here we capture the Start Year Parameter-->
+              <div class="form-group">
+                <label for="train-time">First Train Time (HH:MM):</label>
+                <input type="text" class="form-control" id="train-time" placeholder="HH:MM">
+              </div>
+
+              <!-- Here we capture the End Year Parameter -->
+              <div class="form-group">
+                <label for="freq">Frequency(min):</label>
+                <input type="text" class="form-control" id="freq" placeholder="60">
+              </div>
+              <!-- Here we have our final submit button -->
+              <button id="submit" type="submit" class="btn btn-secondary px-5 btn-outline- active" aria-pressed="true"
+                style="background-color: #20315A ; color: white;">Submit</button>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- Footer Region -->
+    <div class="row">
+      <div class="col-sm-12">
+
+        <!-- Line Break followed by closing -->
+        <hr>
+        <h5 class="text-center">
+          <small>Validated and Inspected by KGB
+            <i class="far fa-smile-wink"></i>
+          </small>
+        </h5>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <!-- Code to the JavaScript File -->
+  <script src="app.js"></script>
+</body>
+
+</html>
