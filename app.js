@@ -3,7 +3,7 @@ $(function(){
 
     //adding a clock to jumbotron
   var datetime = null,
-    date = null;
+  date = null;
 
   var update =  () => {
     date = moment(new Date())
@@ -47,16 +47,19 @@ $(function(){
     // console.log(firstTimeConverted);
 
     // Current Time
-    var currentTime = moment();
-    // console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"));
+    // var currentTime = moment();
+    var currentTime = date;
+    // console.log("CURRENT TIME: " + moment(date).format("hh.mm:ss"));
+    // console.log("CURRENT TIME: " + moment(date));
 
     // Difference between the times
     var diffTime = currentTime.diff(moment(firstTimeConverted), "minutes");
-    // console.log("DIFFERENCE IN TIME: " + diffTime);
 
     // Time apart (remainder) 
     var tRemainder = diffTime % freq;
     // console.log(tRemainder);
+
+    
 
     // Minute Until Train - minutes away
     var tMinutesTillTrain = freq - tRemainder;
@@ -66,8 +69,10 @@ $(function(){
     var nextTrainMin = moment().add(tMinutesTillTrain, "minutes");
     var nextTrain = moment(nextTrainMin).format("hh:mm")
     // console.log("ARRIVAL TIME: " + nextTrain);
-    
-   
+
+    //making live next Train
+    // duration = moment.duration(nextTrain, 'seconds');
+    // console.log(duration);
 
     // Creates local "temporary" object for holding employee data
     var newTrain = {
@@ -96,7 +101,7 @@ $(function(){
     $("#destination").val("");
     $("#train-time").val("");
     $("#freq").val("");
-    
+  
   });
   
 // 3. Create Firebase event for adding train to the database and a row in the html when a user adds an entry
@@ -110,30 +115,59 @@ $(function(){
     var tMinutesTillTrain = childSnapshot.val().tMinutesTillTrain;
 
     // Employee Info
-    console.log(trainName);
-    console.log(destination);
-    console.log(freq);
-    console.log(nextTrain);
-    console.log(tMinutesTillTrain);
+    // console.log(typeof childSnapshot.val());
+    // console.log(trainName);
+    // console.log(destination);
+    // console.log(freq);
+    // console.log(nextTrain);
+    // console.log(tMinutesTillTrain);
 
     // Create the new row
     var newRow = $("<tr>").append(
       $("<td>").text(trainName),
       $("<td>").text(destination),
       $("<td>").text(freq),
-      $("<td>").text(nextTrain),
-      $("<td>").text(tMinutesTillTrain),
+      $("<td class='nextTr'>").text(nextTrain),
+      $("<td class='tMinutesTillTrain'>").text(tMinutesTillTrain),
+      // $("<td class='tMinutesTillTrain'>"),
       $("<td>").html("<span class='remove'> x </span>")
     );
 
     // Append the new row to the table
     $("#train-new > tbody").append(newRow);
+    //   //seting live time till next train
+    
+    // var nextTrainConverted = moment(nextTrain, "HH:mm");
+    // // console.log(nextTrain);
+    // var diffTime = date.diff(moment(nextTrainConverted), "minutes");
+    // // console.log(diffTime);
 
+    // var tRemainder = diffTime % freq;
+    // // console.log(tRemainder);
+    // // Minute Until Train - minutes away
+    // var tMinutesTillTrain = freq - tRemainder;
+    // console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+    // // Next Train
+    // var nextTrainMin = moment().add(tMinutesTillTrain, "minutes");
+    // var nextTrain = moment(nextTrainMin).format("hh:mm:ss")
+    // console.log("ARRIVAL TIME: " + nextTrain);
+
+    // var updateNew = () => {
+     
+    //   nextTrain.html(nextTrainMin.format('mm:ss'));
+    // };
+
+    // nextTrain = $('.nextTr')
+    // updateNew();
+    // setInterval(updateNew, 1000);
+    
+   
     //deleting the row
     // need to use parent() because it is a jQuery object, not a normal DOM object
     $(".remove").on('click', function () {
       $(this).parent().parent().remove();
-      childSnapshot.remove();
+      // childSnapshot.val().remove();
 
         });
 
