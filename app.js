@@ -165,7 +165,9 @@ $(function(){
    
     //deleting the row
     // need to use parent() because it is a jQuery object, not a normal DOM object
-    $(".remove").on('click', function () {
+    $(".remove").on('click', function(e) {
+      //stoping bubling up
+      e.stopPropagation();
       $(this).parent().parent().remove();
       // childSnapshot.val().remove();
 
