@@ -123,6 +123,7 @@ $(function(){
     // console.log(tMinutesTillTrain);
 
     // Create the new row
+    // create a random number to add an id?
     var newRow = $("<tr>").append(
       $("<td>").text(trainName),
       $("<td>").text(destination),
